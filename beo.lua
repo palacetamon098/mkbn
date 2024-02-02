@@ -3,6 +3,60 @@
 wdym
 
 --]]
+local AutoJoinTeam = "Marines" -- "Marines" or "Pirates"
+
+local function setPlayerTeam(teamName)
+    local replicatedStorage = game:GetService("ReplicatedStorage")
+    local player = game:GetService("Players").LocalPlayer
+    local playerGui = player.PlayerGui
+    local backpack = player.Backpack
+    local character = player.Character
+
+    replicatedStorage.Remotes["CommF_"]:InvokeServer("SetTeam", teamName)
+
+    local elementsToShow = {
+        "RaceEnergy", "Compass", "Energy", "AlliesButton", "Code",
+        "CrewButton", "HomeButton", "Mute", "Settings", "MenuButton",
+        "Beli", "Fragments", "Level", "HP"
+    }
+
+    local chooseTeamFrame = playerGui.Main:FindFirstChild("ChooseTeam")
+    if chooseTeamFrame then
+        chooseTeamFrame:Destroy()
+    end
+
+    for _, elementName in pairs(elementsToShow) do
+        local element = playerGui.Main[elementName]
+        if element then
+            element.Visible = (elementName == "RaceEnergy") and (backpack:FindFirstChild("Awakening") or character:FindFirstChild("Awakening")) or true
+        end
+    end
+
+    local camera = game:GetService("Workspace").CurrentCamera
+    camera.CameraType = Enum.CameraType.Custom
+    camera.CameraSubject = character.Humanoid
+    camera.CFrame = character.HumanoidRootPart.CFrame
+end
+
+setPlayerTeam(AutoJoinTeam)
+local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
+local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
+
+local Window = Fluent:CreateWindow({
+	Title = "mbm Hub",
+	SubTitle = "https://dsc.gg/m1m",
+	TabWidth = 155,
+	Size = UDim2.fromOffset(450, 400),
+	Acrylic = true,
+	Theme = "Rose",
+	MinimizeKey = Enum.KeyCode.LeftControl
+})
+
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("SetTeam","Pirates")
+
+wait(0.1)
+
 if not game:IsLoaded() then repeat game.Loaded:Wait() until game:IsLoaded() end
 
 if game:GetService("Players").LocalPlayer.PlayerGui.Main:FindFirstChild("ChooseTeam") then
@@ -24,22 +78,6 @@ if game:GetService("Players").LocalPlayer.PlayerGui.Main:FindFirstChild("ChooseT
         end
     until game.Players.LocalPlayer.Team ~= nil and game:IsLoaded()
 end
-
-wait(1)
-
-local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
-local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
-local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
-
-local Window = Fluent:CreateWindow({
-	Title = "mbm Hub",
-	SubTitle = "https://dsc.gg/m1m",
-	TabWidth = 155,
-	Size = UDim2.fromOffset(450, 400),
-	Acrylic = true,
-	Theme = "Rose",
-	MinimizeKey = Enum.KeyCode.LeftControl
-})
 
 function notify(title, content)
 	if title and not content then content = title; title = "notification" end
