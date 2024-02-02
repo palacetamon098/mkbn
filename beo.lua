@@ -3,10 +3,6 @@
 wdym
 
 --]]
-game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("SetTeam","Pirates")
-
-wait(0.1)
-
 if not game:IsLoaded() then repeat game.Loaded:Wait() until game:IsLoaded() end
 
 if game:GetService("Players").LocalPlayer.PlayerGui.Main:FindFirstChild("ChooseTeam") then
