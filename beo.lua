@@ -13,9 +13,11 @@ local Window = Fluent:CreateWindow({
 	TabWidth = 155,
 	Size = UDim2.fromOffset(450, 400),
 	Acrylic = true,
-	Theme = "Amethyst",
+	Theme = "Rose",
 	MinimizeKey = Enum.KeyCode.LeftControl
 })
+
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("SetTeam","Pirates")
 
 repeat wait() until game.Players
 repeat wait() until game.Players.LocalPlayer
@@ -25,8 +27,6 @@ repeat wait() until game.Players.LocalPlayer:FindFirstChild("PlayerGui");
 repeat wait() until game.Players.LocalPlayer.PlayerGui:FindFirstChild("Main");
 repeat wait() until game:GetService("Players")
 repeat wait() until game:GetService("Players").LocalPlayer.Character:FindFirstChild("Energy")
-
-game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("SetTeam","Pirates")
 
 local Options = Fluent.Options
 
