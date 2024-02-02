@@ -11,7 +11,7 @@ local Window = Fluent:CreateWindow({
 	Title = "mbm Hub",
 	SubTitle = "https://dsc.gg/m1m",
 	TabWidth = 155,
-	Size = UDim2.fromOffset(400, 350),
+	Size = UDim2.fromOffset(450, 400),
 	Acrylic = true,
 	Theme = "Rose",
 	MinimizeKey = Enum.KeyCode.LeftControl
@@ -28,6 +28,39 @@ repeat wait() until game.Players.LocalPlayer.PlayerGui:FindFirstChild("Main");
 repeat wait() until game:GetService("Players")
 repeat wait() until game:GetService("Players").LocalPlayer.Character:FindFirstChild("Energy")
 
+wait(0.1)
+
+if not game:IsLoaded() then repeat game.Loaded:Wait() until game:IsLoaded() end
+
+if game:GetService("Players").LocalPlayer.PlayerGui.Main:FindFirstChild("ChooseTeam") then
+    repeat wait()
+        if game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("Main").ChooseTeam.Visible == true then
+            if _G.Team == "Pirate" then
+                for i, v in pairs(getconnections(game:GetService("Players").LocalPlayer.PlayerGui.Main.ChooseTeam.Container.Pirates.Frame.ViewportFrame.TextButton.Activated)) do                                                                                                
+                    v.Function()
+                end
+            elseif _G.Team == "Marine" then
+                for i, v in pairs(getconnections(game:GetService("Players").LocalPlayer.PlayerGui.Main.ChooseTeam.Container.Marines.Frame.ViewportFrame.TextButton.Activated)) do                                                                                                
+                    v.Function()
+                end
+            else
+                for i, v in pairs(getconnections(game:GetService("Players").LocalPlayer.PlayerGui.Main.ChooseTeam.Container.Pirates.Frame.ViewportFrame.TextButton.Activated)) do                                                                                                
+                    v.Function()
+                end
+            end
+        end
+    until game.Players.LocalPlayer.Team ~= nil and game:IsLoaded()
+end
+
+function notify(title, content)
+	if title and not content then content = title; title = "notification" end
+	Fluent:Notify({
+		Title = title,
+		Content = content,
+		Duration = 5
+	})
+end
+
 local Options = Fluent.Options
 
 notify("ty for using")
@@ -39,7 +72,7 @@ local onTabs = {
 
       onTabs.Main:AddButton({
         Title = "F9",
-        Description = "Console roblox",
+        Description = "console roblox",
         Callback = function()
             spawn(function()
                 while wait() do
@@ -402,16 +435,7 @@ print("sk")
 print("wait ,.,")
 print("LCTSV - .,.")  
 
-local Chest = onTabs.Main:AddToggle("Auto Chest", {Title = "Auto Chest Farm", Default = false })
-Chest:OnChanged(function(toggled)
-	if toggled then
-		_G.ChestBypass = true
-	else
-		_G.ChestBypass = false
-	end
-end)
-
-task.delay(3 * 60,function() -- hop every  min
+task.delay(2.3 * 60,function() -- hop every  min
    
     loadstring(game:HttpGet("https://raw.githubusercontent.com/m1M-Plqer819/hop/main/server/every"))()
        end)
